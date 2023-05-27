@@ -12,7 +12,7 @@ import org.apache.causeway.testing.fixtures.applib.fixturescripts.FixtureScript;
 import org.apache.causeway.testing.fixtures.applib.modules.ModuleWithFixtures;
 import org.apache.causeway.testing.fixtures.applib.teardown.jdo.TeardownFixtureJdoAbstract;
 
-import domainapp.modules.simple.dom.so.SimpleObject;
+import domainapp.modules.simple.dom.so.Vidrio;
 
 @Configuration
 @Import({
@@ -32,7 +32,7 @@ public class SimpleModule implements ModuleWithFixtures {
         return new TeardownFixtureJdoAbstract() {
             @Override
             protected void execute(ExecutionContext executionContext) {
-                deleteFrom(SimpleObject.class);
+                deleteFrom(Vidrio.class);
             }
         };
     }

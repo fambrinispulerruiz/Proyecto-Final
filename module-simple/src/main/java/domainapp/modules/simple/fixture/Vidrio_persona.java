@@ -22,12 +22,12 @@ import lombok.SneakyThrows;
 import lombok.val;
 import lombok.experimental.Accessors;
 
-import domainapp.modules.simple.dom.so.SimpleObject;
-import domainapp.modules.simple.dom.so.SimpleObjects;
+import domainapp.modules.simple.dom.so.Vidrio;
+import domainapp.modules.simple.dom.so.Vidrios;
 
 @RequiredArgsConstructor
-public enum SimpleObject_persona
-implements Persona<SimpleObject, SimpleObject_persona.Builder> {
+public enum Vidrio_persona
+implements Persona<Vidrio, Vidrio_persona.Builder> {
 
     FOO("Foo", "Foo.pdf"),
     BAR("Bar", "Bar.pdf"),
@@ -49,29 +49,29 @@ implements Persona<SimpleObject, SimpleObject_persona.Builder> {
     }
 
     @Override
-    public SimpleObject findUsing(final ServiceRegistry serviceRegistry) {
-        return serviceRegistry.lookupService(SimpleObjects.class).map(x -> x.findByNameExact(name)).orElseThrow();
+    public Vidrio findUsing(final ServiceRegistry serviceRegistry) {
+        return serviceRegistry.lookupService(Vidrios.class).map(x -> x.findByNameExact(name)).orElseThrow();
     }
 
     @Accessors(chain = true)
-    public static class Builder extends BuilderScriptWithResult<SimpleObject> {
+    public static class Builder extends BuilderScriptWithResult<Vidrio> {
 
-        @Getter @Setter private SimpleObject_persona persona;
+        @Getter @Setter private Vidrio_persona persona;
 
         @Override
-        protected SimpleObject buildResult(final ExecutionContext ec) {
+        protected Vidrio buildResult(final ExecutionContext ec) {
 
-            val simpleObject = wrap(simpleObjects).create(persona.name);
+            val vidrio = wrap(vidrios).create(persona.name);
 
             if (persona.contentFileName != null) {
                 val bytes = toBytes(persona.contentFileName);
                 val attachment = new Blob(persona.contentFileName, "application/pdf", bytes);
-                simpleObject.updateAttachment(attachment);
+                vidrio.updateAttachment(attachment);
             }
 
-            simpleObject.setLastCheckedIn(clockService.getClock().nowAsLocalDate().plusDays(fakeDataService.ints().between(-10, +10)));
+            vidrio.setLastCheckedIn(clockService.getClock().nowAsLocalDate().plusDays(fakeDataService.ints().between(-10, +10)));
 
-            return simpleObject;
+            return vidrio;
         }
 
         @SneakyThrows
@@ -91,15 +91,15 @@ implements Persona<SimpleObject, SimpleObject_persona.Builder> {
 
         // -- DEPENDENCIES
 
-        @Inject SimpleObjects simpleObjects;
+        @Inject Vidrios vidrios;
         @Inject ClockService clockService;
         @Inject FakeDataService fakeDataService;
     }
 
     public static class PersistAll
-            extends PersonaEnumPersistAll<SimpleObject, SimpleObject_persona, Builder> {
+            extends PersonaEnumPersistAll<Vidrio, Vidrio_persona, Builder> {
         public PersistAll() {
-            super(SimpleObject_persona.class);
+            super(Vidrio_persona.class);
         }
     }
 

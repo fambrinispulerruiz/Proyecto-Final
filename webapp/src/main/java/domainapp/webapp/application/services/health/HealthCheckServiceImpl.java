@@ -8,16 +8,16 @@ import org.springframework.stereotype.Service;
 import org.apache.causeway.applib.services.health.Health;
 import org.apache.causeway.applib.services.health.HealthCheckService;
 
-import domainapp.modules.simple.dom.so.SimpleObjects;
+import domainapp.modules.simple.dom.so.Vidrios;
 
 @Service
 @Named("domainapp.HealthCheckServiceImpl")
 public class HealthCheckServiceImpl implements HealthCheckService {
 
-    private final SimpleObjects simpleObjects;
+    private final Vidrios simpleObjects;
 
     @Inject
-    public HealthCheckServiceImpl(SimpleObjects simpleObjects) {
+    public HealthCheckServiceImpl(Vidrios simpleObjects) {
         this.simpleObjects = simpleObjects;
     }
 

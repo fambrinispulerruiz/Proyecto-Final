@@ -64,39 +64,39 @@ import domainapp.modules.simple.types.Notes;
     schema = SimpleModule.SCHEMA,
     identityType=IdentityType.DATASTORE)
 @Unique(
-        name = "SimpleObject__name__UNQ", members = { "name" }
+        name = "Vidrio__name__UNQ", members = { "name" }
 )
 @Queries({
         @Query(
-                name = SimpleObject.NAMED_QUERY__FIND_BY_NAME_LIKE,
+                name = Vidrio.NAMED_QUERY__FIND_BY_NAME_LIKE,
                 value = "SELECT " +
-                        "FROM domainapp.modules.simple.dom.so.SimpleObject " +
+                        "FROM domainapp.modules.simple.dom.so.Vidrio " +
                         "WHERE name.indexOf(:name) >= 0"
         ),
         @Query(
-                name = SimpleObject.NAMED_QUERY__FIND_BY_NAME_EXACT,
+                name = Vidrio.NAMED_QUERY__FIND_BY_NAME_EXACT,
                 value = "SELECT " +
-                        "FROM domainapp.modules.simple.dom.so.SimpleObject " +
+                        "FROM domainapp.modules.simple.dom.so.Vidrio " +
                         "WHERE name == :name"
         )
 })
 @DatastoreIdentity(strategy=IdGeneratorStrategy.IDENTITY, column="id")
 @Version(strategy= VersionStrategy.DATE_TIME, column="version")
-@Named(SimpleModule.NAMESPACE + ".SimpleObject")
+@Named(SimpleModule.NAMESPACE + ".Vidrio")
 @DomainObject(entityChangePublishing = Publishing.ENABLED)
 @DomainObjectLayout(tableDecorator = TableDecorator.DatatablesNet.class)
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 @XmlJavaTypeAdapter(PersistentEntityAdapter.class)
 @ToString(onlyExplicitlyIncluded = true)
-public class SimpleObject implements Comparable<SimpleObject>, CalendarEventable {
+public class Vidrio implements Comparable<Vidrio>, CalendarEventable {
 
-    static final String NAMED_QUERY__FIND_BY_NAME_LIKE = "SimpleObject.findByNameLike";
-    static final String NAMED_QUERY__FIND_BY_NAME_EXACT = "SimpleObject.findByNameExact";
+    static final String NAMED_QUERY__FIND_BY_NAME_LIKE = "Vidrio.findByNameLike";
+    static final String NAMED_QUERY__FIND_BY_NAME_EXACT = "Vidrio.findByNameExact";
 
-    public static SimpleObject withName(final String name) {
-        val simpleObject = new SimpleObject();
-        simpleObject.setName(name);
-        return simpleObject;
+    public static Vidrio withName(final String name) {
+        val vidrio = new Vidrio();
+        vidrio.setName(name);
+        return vidrio;
     }
 
     @Inject @NotPersistent RepositoryService repositoryService;
@@ -159,7 +159,7 @@ public class SimpleObject implements Comparable<SimpleObject>, CalendarEventable
     @ActionLayout(
             associateWith = "name", promptStyle = PromptStyle.INLINE,
             describedAs = "Updates the name of this object, certain characters (" + PROHIBITED_CHARACTERS + ") are not allowed.")
-    public SimpleObject updateName(
+    public Vidrio updateName(
             @Name final String name) {
         setName(name);
         return this;
@@ -181,7 +181,7 @@ public class SimpleObject implements Comparable<SimpleObject>, CalendarEventable
 
     @Action(semantics = IDEMPOTENT, commandPublishing = Publishing.ENABLED, executionPublishing = Publishing.ENABLED)
     @ActionLayout(associateWith = "attachment", position = ActionLayout.Position.PANEL)
-    public SimpleObject updateAttachment(
+    public Vidrio updateAttachment(
             @Nullable final Blob attachment) {
         setAttachment(attachment);
         return this;
@@ -205,11 +205,11 @@ public class SimpleObject implements Comparable<SimpleObject>, CalendarEventable
 
 
 
-    private final static Comparator<SimpleObject> comparator =
-            Comparator.comparing(SimpleObject::getName);
+    private final static Comparator<Vidrio> comparator =
+            Comparator.comparing(Vidrio::getName);
 
     @Override
-    public int compareTo(final SimpleObject other) {
+    public int compareTo(final Vidrio other) {
         return comparator.compare(this, other);
     }
 

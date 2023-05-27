@@ -24,11 +24,11 @@ import lombok.RequiredArgsConstructor;
 import domainapp.modules.simple.SimpleModule;
 import domainapp.modules.simple.types.Name;
 
-@Named(SimpleModule.NAMESPACE + ".SimpleObjects")
+@Named(SimpleModule.NAMESPACE + ".Vidrios")
 @DomainService(nature = NatureOfService.VIEW)
 @Priority(PriorityPrecedence.EARLY)
 @RequiredArgsConstructor(onConstructor_ = {@Inject} )
-public class SimpleObjects {
+public class Vidrios {
 
     final RepositoryService repositoryService;
     final JdoSupportService jdoSupportService;
@@ -36,26 +36,26 @@ public class SimpleObjects {
 
     @Action(semantics = SemanticsOf.NON_IDEMPOTENT)
     @ActionLayout(promptStyle = PromptStyle.DIALOG_SIDEBAR)
-    public SimpleObject create(
+    public Vidrio create(
             @Name final String name) {
-        return repositoryService.persist(SimpleObject.withName(name));
+        return repositoryService.persist(Vidrio.withName(name));
     }
 
 
     @Action(semantics = SemanticsOf.SAFE)
     @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT, promptStyle = PromptStyle.DIALOG_SIDEBAR)
-    public List<SimpleObject> findByName(
+    public List<Vidrio> findByName(
             @Name final String name
             ) {
         return repositoryService.allMatches(
-                    Query.named(SimpleObject.class, SimpleObject.NAMED_QUERY__FIND_BY_NAME_LIKE)
+                    Query.named(Vidrio.class, Vidrio.NAMED_QUERY__FIND_BY_NAME_LIKE)
                         .withParameter("name", name));
     }
 
 
-    public SimpleObject findByNameExact(final String name) {
+    public Vidrio findByNameExact(final String name) {
         return repositoryService.firstMatch(
-                    Query.named(SimpleObject.class, SimpleObject.NAMED_QUERY__FIND_BY_NAME_EXACT)
+                    Query.named(Vidrio.class, Vidrio.NAMED_QUERY__FIND_BY_NAME_EXACT)
                         .withParameter("name", name))
                 .orElse(null);
     }
@@ -64,8 +64,8 @@ public class SimpleObjects {
 
     @Action(semantics = SemanticsOf.SAFE)
     @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
-    public List<SimpleObject> listAll() {
-        return repositoryService.allInstances(SimpleObject.class);
+    public List<Vidrio> listAll() {
+        return repositoryService.allInstances(Vidrio.class);
     }
 
 

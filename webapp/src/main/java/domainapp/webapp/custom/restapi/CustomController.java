@@ -17,8 +17,8 @@ import org.apache.causeway.applib.services.xactn.TransactionalProcessor;
 
 import lombok.RequiredArgsConstructor;
 
-import domainapp.modules.simple.dom.so.SimpleObject;
-import domainapp.modules.simple.dom.so.SimpleObjects;
+import domainapp.modules.simple.dom.so.Vidrio;
+import domainapp.modules.simple.dom.so.Vidrios;
 
 @RestController
 @RequiredArgsConstructor(onConstructor_ = {@Inject})
@@ -26,12 +26,12 @@ class CustomController {
 
     private final InteractionService interactionService;
     private final TransactionalProcessor transactionalProcessor;
-    private final SimpleObjects simpleObjects;
+    private final Vidrios simpleObjects;
 
     @GetMapping("/custom/simpleObjects")
-    List<SimpleObject> all() {
+    List<Vidrio> all() {
         return call("sven", simpleObjects::listAll)
-                .orElse(Collections.<SimpleObject>emptyList());
+                .orElse(Collections.<Vidrio>emptyList());
     }
 
     private <T> Optional<T> call(
