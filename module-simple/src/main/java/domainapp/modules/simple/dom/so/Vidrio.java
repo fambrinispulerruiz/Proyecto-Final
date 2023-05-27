@@ -97,6 +97,7 @@ public class Vidrio implements Comparable<Vidrio>, CalendarEventable {
         val vidrio = new Vidrio();
         vidrio.setName(name);
         return vidrio;
+        //---------
     }
 
     @Inject @NotPersistent RepositoryService repositoryService;
