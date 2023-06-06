@@ -7,6 +7,10 @@ import javax.inject.Inject;
 
 import org.springframework.core.io.ClassPathResource;
 
+import domainapp.modules.simple.dom.so.vidrio.TipoVidrio;
+import domainapp.modules.simple.dom.so.vidrio.Vidrio;
+import domainapp.modules.simple.dom.so.vidrio.Vidrios;
+
 import org.apache.causeway.applib.services.clock.ClockService;
 import org.apache.causeway.applib.services.registry.ServiceRegistry;
 import org.apache.causeway.applib.value.Blob;
@@ -22,25 +26,25 @@ import lombok.SneakyThrows;
 import lombok.val;
 import lombok.experimental.Accessors;
 
-import domainapp.modules.simple.dom.so.Vidrio;
-import domainapp.modules.simple.dom.so.Vidrios;
-
 @RequiredArgsConstructor
 public enum Vidrio_persona
 implements Persona<Vidrio, Vidrio_persona.Builder> {
 
-    FOO("Foo", "Foo.pdf"),
-    BAR("Bar", "Bar.pdf"),
-    BAZ("Baz", null),
-    FRODO("Frodo", "Frodo.pdf"),
-    FROYO("Froyo", null),
-    FIZZ("Fizz", "Fizz.pdf"),
-    BIP("Bip", null),
-    BOP("Bop", null),
-    BANG("Bang", "Bang.pdf"),
-    BOO("Boo", null);
+    FOO("Foo", 1, 200, TipoVidrio.Parabrisa, "Foo.pdf"),
+    BAR("Bar", 1, 200, TipoVidrio.Parabrisa, "Bar.pdf"),
+    BAZ("Baz", 1, 200, TipoVidrio.Parabrisa, "Baz.pdf"),
+    FRODO("Frodo", 1, 200, TipoVidrio.Parabrisa, "Frodo.pdf"),
+    FROYO("Froyo", 1, 200, TipoVidrio.Parabrisa, "Froyo.pdf"),
+    FIZZ("Fizz", 1, 200, TipoVidrio.Parabrisa, "Fizz.pdf"),
+    BIP("Bip", 1, 200, TipoVidrio.Parabrisa, "Bip.pdf"),
+    BOP("Bop", 1, 200, TipoVidrio.Parabrisa, "Bop.pdf"),
+    BANG("Bang", 1, 200, TipoVidrio.Parabrisa, "Bang.pdf"),
+    BOO("Boo", 1, 200, TipoVidrio.Parabrisa, "Boo.pdf");
 
     private final String name;
+    private final int codigo;
+    private final double precio;
+    private final TipoVidrio tipoVidrio;
     private final String contentFileName;
 
     @Override
@@ -61,7 +65,7 @@ implements Persona<Vidrio, Vidrio_persona.Builder> {
         @Override
         protected Vidrio buildResult(final ExecutionContext ec) {
 
-            val vidrio = wrap(vidrios).create(persona.name);
+            val vidrio = wrap(vidrios).create(persona.name, persona.codigo, persona.precio, persona.tipoVidrio);
 
             if (persona.contentFileName != null) {
                 val bytes = toBytes(persona.contentFileName);

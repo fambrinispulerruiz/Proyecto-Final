@@ -1,4 +1,4 @@
-package domainapp.modules.simple.dom.so;
+package domainapp.modules.simple.dom.so.vidrio;
 
 import java.time.LocalTime;
 import java.time.ZoneOffset;
@@ -64,7 +64,7 @@ import domainapp.modules.simple.types.Notes;
     schema = SimpleModule.SCHEMA,
     identityType=IdentityType.DATASTORE)
 @Unique(
-        name = "Vidrio__name__UNQ", members = { "name" }
+        name = "Vidrio__name__UNQ", members = { "nombre" }
 )
 @Queries({
         @Query(
@@ -93,11 +93,13 @@ public class Vidrio implements Comparable<Vidrio>, CalendarEventable {
     static final String NAMED_QUERY__FIND_BY_NAME_LIKE = "Vidrio.findByNameLike";
     static final String NAMED_QUERY__FIND_BY_NAME_EXACT = "Vidrio.findByNameExact";
 
-    public static Vidrio withName(final String name) {
+    public static Vidrio withName(final String nombre, final int codigo, final double precio, final TipoVidrio tipoVidrio) {
         val vidrio = new Vidrio();
-        vidrio.setName(name);
+        vidrio.setNombre(nombre);
+        vidrio.setCodigo(codigo);
+        vidrio.setPrecio(precio);
+        vidrio.setTipoVidrio(tipoVidrio);
         return vidrio;
-        //---------
     }
 
     @Inject @NotPersistent RepositoryService repositoryService;
@@ -110,8 +112,21 @@ public class Vidrio implements Comparable<Vidrio>, CalendarEventable {
     @Name
     @Getter @Setter @ToString.Include
     @PropertyLayout(fieldSetId = LayoutConstants.FieldSetId.IDENTITY, sequence = "1")
-    private String name;
+    private String nombre;
 
+    @Getter @Setter
+    @PropertyLayout(fieldSetId = LayoutConstants.FieldSetId.DETAILS, sequence = "2")
+    private int codigo;
+    
+    @Getter @Setter
+    @PropertyLayout(fieldSetId = LayoutConstants.FieldSetId.DETAILS, sequence = "3")
+    private double precio;
+    
+    @Getter @Setter
+    @PropertyLayout(fieldSetId = LayoutConstants.FieldSetId.DETAILS, sequence = "4")
+    private TipoVidrio tipoVidrio;
+    
+    
     @Notes
     @Getter @Setter
     @Property(commandPublishing = Publishing.ENABLED, executionPublishing = Publishing.ENABLED)
@@ -162,11 +177,11 @@ public class Vidrio implements Comparable<Vidrio>, CalendarEventable {
             describedAs = "Updates the name of this object, certain characters (" + PROHIBITED_CHARACTERS + ") are not allowed.")
     public Vidrio updateName(
             @Name final String name) {
-        setName(name);
+        setNombre(name);
         return this;
     }
     @MemberSupport public String default0UpdateName() {
-        return getName();
+        return getNombre();
     }
     @MemberSupport public String validate0UpdateName(final String newName) {
         for (char prohibitedCharacter : PROHIBITED_CHARACTERS.toCharArray()) {
@@ -207,7 +222,7 @@ public class Vidrio implements Comparable<Vidrio>, CalendarEventable {
 
 
     private final static Comparator<Vidrio> comparator =
-            Comparator.comparing(Vidrio::getName);
+            Comparator.comparing(Vidrio::getNombre);
 
     @Override
     public int compareTo(final Vidrio other) {

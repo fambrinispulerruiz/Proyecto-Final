@@ -1,4 +1,4 @@
-package domainapp.modules.simple.dom.so;
+package domainapp.modules.simple.dom.so.vidrio;
 
 import java.util.List;
 
@@ -37,8 +37,8 @@ public class Vidrios {
     @Action(semantics = SemanticsOf.NON_IDEMPOTENT)
     @ActionLayout(promptStyle = PromptStyle.DIALOG_SIDEBAR)
     public Vidrio create(
-            @Name final String name) {
-        return repositoryService.persist(Vidrio.withName(name));
+            @Name final String nombre, final int codigo, final double precio, final TipoVidrio tipoVidrio) {
+        return repositoryService.persist(Vidrio.withName(nombre, codigo, precio, tipoVidrio));
     }
 
 

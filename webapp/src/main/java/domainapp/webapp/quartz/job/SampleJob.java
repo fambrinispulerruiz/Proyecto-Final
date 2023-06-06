@@ -13,6 +13,9 @@ import org.quartz.JobExecutionException;
 
 import org.springframework.stereotype.Component;
 
+import domainapp.modules.simple.dom.so.vidrio.Vidrio;
+import domainapp.modules.simple.dom.so.vidrio.Vidrios;
+
 import org.apache.causeway.applib.services.iactnlayer.InteractionContext;
 import org.apache.causeway.applib.services.iactnlayer.InteractionService;
 import org.apache.causeway.applib.services.user.UserMemento;
@@ -20,9 +23,6 @@ import org.apache.causeway.applib.services.xactn.TransactionalProcessor;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-
-import domainapp.modules.simple.dom.so.Vidrio;
-import domainapp.modules.simple.dom.so.Vidrios;
 
 @Component
 @RequiredArgsConstructor(onConstructor_ = {@Inject})

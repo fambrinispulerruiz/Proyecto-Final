@@ -15,8 +15,8 @@ import org.apache.causeway.applib.annotation.ObjectSupport;
 import org.apache.causeway.applib.annotation.TableDecorator;
 
 import domainapp.modules.simple.SimpleModule;
-import domainapp.modules.simple.dom.so.Vidrio;
-import domainapp.modules.simple.dom.so.Vidrios;
+import domainapp.modules.simple.dom.so.vidrio.Vidrio;
+import domainapp.modules.simple.dom.so.vidrio.Vidrios;
 
 @Named(SimpleModule.NAMESPACE + ".HomePageViewModel")
 @DomainObject(nature = Nature.VIEW_MODEL)

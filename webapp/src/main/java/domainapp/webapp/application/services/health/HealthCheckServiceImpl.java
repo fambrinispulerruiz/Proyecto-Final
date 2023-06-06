@@ -5,10 +5,10 @@ import javax.inject.Named;
 
 import org.springframework.stereotype.Service;
 
+import domainapp.modules.simple.dom.so.vidrio.Vidrios;
+
 import org.apache.causeway.applib.services.health.Health;
 import org.apache.causeway.applib.services.health.HealthCheckService;
-
-import domainapp.modules.simple.dom.so.Vidrios;
 
 @Service
 @Named("domainapp.HealthCheckServiceImpl")
