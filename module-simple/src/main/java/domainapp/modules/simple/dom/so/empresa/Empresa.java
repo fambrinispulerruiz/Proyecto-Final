@@ -1,4 +1,4 @@
-package domainapp.modules.simple.dom.so.vidrio;
+package domainapp.modules.simple.dom.so.empresa;
 
 //import java.time.LocalTime;
 //import java.time.ZoneOffset;
@@ -30,7 +30,7 @@ import org.apache.causeway.applib.annotation.DomainObjectLayout;
 import org.apache.causeway.applib.annotation.MemberSupport;
 //import org.apache.causeway.applib.annotation.Optionality;
 import org.apache.causeway.applib.annotation.PromptStyle;
-import org.apache.causeway.applib.annotation.Property;
+//import org.apache.causeway.applib.annotation.Property;
 import org.apache.causeway.applib.annotation.PropertyLayout;
 import org.apache.causeway.applib.annotation.Publishing;
 import org.apache.causeway.applib.annotation.TableDecorator;
@@ -56,52 +56,50 @@ import lombok.ToString;
 import lombok.val;
 
 import domainapp.modules.simple.SimpleModule;
-import domainapp.modules.simple.types.Codigo;
+//import domainapp.modules.simple.types.Codigo;
 import domainapp.modules.simple.types.Nombre;
-import domainapp.modules.simple.types.Notes;
-import domainapp.modules.simple.types.Precio;
+//import domainapp.modules.simple.types.Notes;
+//import domainapp.modules.simple.types.Precio;
 
 
 @PersistenceCapable(
     schema = SimpleModule.SCHEMA,
     identityType=IdentityType.DATASTORE)
 @Unique(
-        name = "Vidrio__name__UNQ", members = { "nombre" }
+        name = "Empresa__name__UNQ", members = { "nombre" }
 )
 @Queries({
         @Query(
-                name = Vidrio.NAMED_QUERY__FIND_BY_NAME_LIKE,
+                name = Empresa.NAMED_QUERY__FIND_BY_NAME_LIKE,
                 value = "SELECT " +
-                        "FROM domainapp.modules.simple.dom.so.Vidrio " +
+                        "FROM domainapp.modules.simple.dom.so.Empresa " +
                         "WHERE name.indexOf(:name) >= 0"
         ),
         @Query(
-                name = Vidrio.NAMED_QUERY__FIND_BY_NAME_EXACT,
+                name = Empresa.NAMED_QUERY__FIND_BY_NAME_EXACT,
                 value = "SELECT " +
-                        "FROM domainapp.modules.simple.dom.so.Vidrio " +
+                        "FROM domainapp.modules.simple.dom.so.Empresa " +
                         "WHERE name == :name"
         )
 })
 @DatastoreIdentity(strategy=IdGeneratorStrategy.IDENTITY, column="id")
 @Version(strategy= VersionStrategy.DATE_TIME, column="version")
-@Named(SimpleModule.NAMESPACE + ".Vidrio")
+@Named(SimpleModule.NAMESPACE + ".Empresa")
 @DomainObject(entityChangePublishing = Publishing.ENABLED)
 @DomainObjectLayout(tableDecorator = TableDecorator.DatatablesNet.class)
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 @XmlJavaTypeAdapter(PersistentEntityAdapter.class)
 @ToString(onlyExplicitlyIncluded = true)
-public class Vidrio implements Comparable<Vidrio> {
+public class Empresa implements Comparable<Empresa> {
 
-    static final String NAMED_QUERY__FIND_BY_NAME_LIKE = "Vidrio.findByNameLike";
-    static final String NAMED_QUERY__FIND_BY_NAME_EXACT = "Vidrio.findByNameExact";
+    static final String NAMED_QUERY__FIND_BY_NAME_LIKE = "Empresa.findByNameLike";
+    static final String NAMED_QUERY__FIND_BY_NAME_EXACT = "Empresa.findByNameExact";
 
-    public static Vidrio withName(final String nombre, final int codigo, final double precio, final TipoVidrio tipoVidrio) {
-        val vidrio = new Vidrio();
-        vidrio.setNombre(nombre);
-        vidrio.setCodigo(codigo);
-        vidrio.setPrecio(precio);
-        vidrio.setTipoVidrio(tipoVidrio);
-        return vidrio;
+    public static Empresa withName(final String nombre, final TipoEmpresa tipoEmpresa) {
+        val empresa = new Empresa();
+        empresa.setNombre(nombre);
+        empresa.setTipoEmpresa(tipoEmpresa);
+        return empresa;
     }
 
     @Inject @NotPersistent RepositoryService repositoryService;
@@ -115,27 +113,10 @@ public class Vidrio implements Comparable<Vidrio> {
     @Getter @Setter @ToString.Include
     @PropertyLayout(fieldSetId = LayoutConstants.FieldSetId.IDENTITY, sequence = "1")
     private String nombre;
-
-
+    
     @Getter @Setter
     @PropertyLayout(fieldSetId = LayoutConstants.FieldSetId.DETAILS, sequence = "2")
-    private int codigo;
-    
-
-    @Getter @Setter
-    @PropertyLayout(fieldSetId = LayoutConstants.FieldSetId.DETAILS, sequence = "3")
-    private double precio;
-    
-    @Getter @Setter
-    @PropertyLayout(fieldSetId = LayoutConstants.FieldSetId.DETAILS, sequence = "4")
-    private TipoVidrio tipoVidrio;
-    
-    
-    @Notes
-    @Getter @Setter
-    @Property(commandPublishing = Publishing.ENABLED, executionPublishing = Publishing.ENABLED)
-    @PropertyLayout(fieldSetId = LayoutConstants.FieldSetId.DETAILS, sequence = "2")
-    private String notes;
+    private TipoEmpresa tipoEmpresa;
 
 
 //    @PdfJsViewer
@@ -179,7 +160,7 @@ public class Vidrio implements Comparable<Vidrio> {
     @ActionLayout(
             associateWith = "nombre", promptStyle = PromptStyle.INLINE,
             describedAs = "Updates the name of this object, certain characters (" + PROHIBITED_CHARACTERS + ") are not allowed.")
-    public Vidrio updateName(
+    public Empresa updateName(
             @Nombre final String name) {
         setNombre(name);
         return this;
@@ -225,11 +206,11 @@ public class Vidrio implements Comparable<Vidrio> {
 
 
 
-    private final static Comparator<Vidrio> comparator =
-            Comparator.comparing(Vidrio::getNombre);
+    private final static Comparator<Empresa> comparator =
+            Comparator.comparing(Empresa::getNombre);
 
     @Override
-    public int compareTo(final Vidrio other) {
+    public int compareTo(final Empresa other) {
         return comparator.compare(this, other);
     }
 

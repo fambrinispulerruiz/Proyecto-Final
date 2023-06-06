@@ -69,11 +69,11 @@ implements Persona<Vidrio, Vidrio_persona.Builder> {
 
             if (persona.contentFileName != null) {
                 val bytes = toBytes(persona.contentFileName);
-                val attachment = new Blob(persona.contentFileName, "application/pdf", bytes);
-                vidrio.updateAttachment(attachment);
+//                val attachment = new Blob(persona.contentFileName, "application/pdf", bytes);
+//                vidrio.updateAttachment(attachment);
             }
 
-            vidrio.setLastCheckedIn(clockService.getClock().nowAsLocalDate().plusDays(fakeDataService.ints().between(-10, +10)));
+//            vidrio.setLastCheckedIn(clockService.getClock().nowAsLocalDate().plusDays(fakeDataService.ints().between(-10, +10)));
 
             return vidrio;
         }

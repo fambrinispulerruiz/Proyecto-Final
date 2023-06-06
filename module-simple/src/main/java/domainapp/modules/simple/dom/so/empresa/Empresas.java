@@ -1,4 +1,4 @@
-package domainapp.modules.simple.dom.so.vidrio;
+package domainapp.modules.simple.dom.so.empresa;
 
 import java.util.List;
 
@@ -24,11 +24,11 @@ import lombok.RequiredArgsConstructor;
 import domainapp.modules.simple.SimpleModule;
 import domainapp.modules.simple.types.Nombre;
 
-@Named(SimpleModule.NAMESPACE + ".Vidrios")
+@Named(SimpleModule.NAMESPACE + ".Empresas")
 @DomainService(nature = NatureOfService.VIEW)
 @Priority(PriorityPrecedence.EARLY)
 @RequiredArgsConstructor(onConstructor_ = {@Inject} )
-public class Vidrios {
+public class Empresas {
 
     final RepositoryService repositoryService;
     final JdoSupportService jdoSupportService;
@@ -36,27 +36,27 @@ public class Vidrios {
 
     @Action(semantics = SemanticsOf.NON_IDEMPOTENT)
     @ActionLayout(promptStyle = PromptStyle.DIALOG_SIDEBAR)
-    public Vidrio create(
-            @Nombre final String nombre, final int codigo, final double precio, final TipoVidrio tipoVidrio) {
-        return repositoryService.persist(Vidrio.withName(nombre, codigo, precio, tipoVidrio));
+    public Empresa create(
+            @Nombre final String nombre, final TipoEmpresa tipoEmpresa) {
+        return repositoryService.persist(Empresa.withName(nombre, tipoEmpresa));
     }
 
 
     @Action(semantics = SemanticsOf.SAFE)
     @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT, promptStyle = PromptStyle.DIALOG_SIDEBAR)
-    public List<Vidrio> findByName(
+    public List<Empresa> findByName(
             @Nombre final String name
             ) {
         return repositoryService.allMatches(
-                    Query.named(Vidrio.class, Vidrio.NAMED_QUERY__FIND_BY_NAME_LIKE)
-                        .withParameter("name", name));
+                    Query.named(Empresa.class, Empresa.NAMED_QUERY__FIND_BY_NAME_LIKE)
+                        .withParameter("nombre", name));
     }
 
 
-    public Vidrio findByNameExact(final String name) {
+    public Empresa findByNameExact(final String name) {
         return repositoryService.firstMatch(
-                    Query.named(Vidrio.class, Vidrio.NAMED_QUERY__FIND_BY_NAME_EXACT)
-                        .withParameter("name", name))
+                    Query.named(Empresa.class, Empresa.NAMED_QUERY__FIND_BY_NAME_EXACT)
+                        .withParameter("nombre", name))
                 .orElse(null);
     }
 
@@ -64,8 +64,8 @@ public class Vidrios {
 
     @Action(semantics = SemanticsOf.SAFE)
     @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
-    public List<Vidrio> listAll() {
-        return repositoryService.allInstances(Vidrio.class);
+    public List<Empresa> listAll() {
+        return repositoryService.allInstances(Empresa.class);
     }
 
 
