@@ -1,0 +1,4 @@
+nombre
+precio
+stock
+cantidad
