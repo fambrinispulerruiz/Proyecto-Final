@@ -14,11 +14,11 @@ import org.apache.causeway.applib.services.health.HealthCheckService;
 @Named("domainapp.HealthCheckServiceImpl")
 public class HealthCheckServiceImpl implements HealthCheckService {
 
-    private final Vidrios simpleObjects;
+    private final Vidrios vidrios;
 
     @Inject
-    public HealthCheckServiceImpl(Vidrios simpleObjects) {
-        this.simpleObjects = simpleObjects;
+    public HealthCheckServiceImpl(Vidrios vidrios) {
+        this.vidrios = vidrios;
     }
 
     @Override
