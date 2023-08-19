@@ -95,10 +95,12 @@ public class Empresa implements Comparable<Empresa> {
     static final String NAMED_QUERY__FIND_BY_NAME_LIKE = "Empresa.findByNameLike";
     static final String NAMED_QUERY__FIND_BY_NAME_EXACT = "Empresa.findByNameExact";
 
-    public static Empresa withName(final String nombre, final TipoEmpresa tipoEmpresa) {
+    public static Empresa withName(final String nombre, final TipoEmpresa tipoEmpresa, final String domicilio, final long telefono) {
         val empresa = new Empresa();
         empresa.setNombre(nombre);
         empresa.setTipoEmpresa(tipoEmpresa);
+        empresa.setDomicilio(domicilio);
+        empresa.setTelefono(telefono);
         return empresa;
     }
 
@@ -117,6 +119,14 @@ public class Empresa implements Comparable<Empresa> {
     @Getter @Setter
     @PropertyLayout(fieldSetId = LayoutConstants.FieldSetId.DETAILS, sequence = "2")
     private TipoEmpresa tipoEmpresa;
+    
+    @Getter @Setter
+    @PropertyLayout(fieldSetId = LayoutConstants.FieldSetId.DETAILS, sequence = "3")
+    private String domicilio;
+
+    @Getter @Setter
+    @PropertyLayout(fieldSetId = LayoutConstants.FieldSetId.DETAILS, sequence = "4")
+    private long telefono;
 
 
 //    @PdfJsViewer

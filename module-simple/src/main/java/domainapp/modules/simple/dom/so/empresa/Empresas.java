@@ -37,8 +37,8 @@ public class Empresas {
     @Action(semantics = SemanticsOf.NON_IDEMPOTENT)
     @ActionLayout(promptStyle = PromptStyle.DIALOG_SIDEBAR)
     public Empresa create(
-            @Nombre final String nombre, final TipoEmpresa tipoEmpresa) {
-        return repositoryService.persist(Empresa.withName(nombre, tipoEmpresa));
+            @Nombre final String nombre, final TipoEmpresa tipoEmpresa, final String domicilio, final long telefono) {
+        return repositoryService.persist(Empresa.withName(nombre, tipoEmpresa, domicilio, telefono));
     }
 
 
