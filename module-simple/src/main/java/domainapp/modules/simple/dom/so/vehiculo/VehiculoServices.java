@@ -24,29 +24,26 @@ import lombok.RequiredArgsConstructor;
 import domainapp.modules.simple.SimpleModule;
 import domainapp.modules.simple.types.Nombre;
 
-@Named(SimpleModule.NAMESPACE + ".Vehiculos")
+@Named(SimpleModule.NAMESPACE + ".VehiculoServices")
 @DomainService(nature = NatureOfService.VIEW)
 @Priority(PriorityPrecedence.EARLY)
 @RequiredArgsConstructor(onConstructor_ = {@Inject} )
-public class Vehiculos {
+public class VehiculoServices {
 
     final RepositoryService repositoryService;
     final JdoSupportService jdoSupportService;
 
 
     @Action(semantics = SemanticsOf.NON_IDEMPOTENT)
-    @ActionLayout(promptStyle = PromptStyle.DIALOG_SIDEBAR)
-    public Vehiculo create(
-            final String marca, final String modelo) {
+    @ActionLayout(promptStyle = PromptStyle.DIALOG_SIDEBAR, cssClassFa = "fa-plus")
+    public Vehiculo crearVehiculo(final String marca, final String modelo) {
         return repositoryService.persist(Vehiculo.withName(marca, modelo));
     }
 
 
     @Action(semantics = SemanticsOf.SAFE)
-    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT, promptStyle = PromptStyle.DIALOG_SIDEBAR)
-    public List<Vehiculo> findByName(
-            final String marca
-            ) {
+    @ActionLayout(promptStyle = PromptStyle.DIALOG_SIDEBAR, cssClassFa = "fa-search")
+    public List<Vehiculo> buscarVehiculo(final String marca) {
         return repositoryService.allMatches(
                     Query.named(Vehiculo.class, Vehiculo.NAMED_QUERY__FIND_BY_MARCA)
                         .withParameter("marca", marca));
@@ -54,19 +51,10 @@ public class Vehiculos {
 
 
     @Action(semantics = SemanticsOf.SAFE)
-    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
-    public List<Vehiculo> listAll() {
+    @ActionLayout(promptStyle = PromptStyle.DIALOG_SIDEBAR,cssClassFa = "fa-list")
+    public List<Vehiculo> verVehiculos() {
         return repositoryService.allInstances(Vehiculo.class);
     }
 
-
-
-//    public void ping() {
-//        JDOQLTypedQuery<SimpleObject> q = jdoSupportService.newTypesafeQuery(SimpleObject.class);
-//        final QSimpleObject candidate = QSimpleObject.candidate();
-//        q.range(0,2);
-//        q.orderBy(candidate.name.asc());
-//        q.executeList();
-//    }
 
 }

@@ -11,6 +11,7 @@ import org.apache.causeway.applib.annotation.Action;
 import org.apache.causeway.applib.annotation.ActionLayout;
 import org.apache.causeway.applib.annotation.BookmarkPolicy;
 import org.apache.causeway.applib.annotation.DomainService;
+import org.apache.causeway.applib.annotation.DomainServiceLayout;
 import org.apache.causeway.applib.annotation.NatureOfService;
 import org.apache.causeway.applib.annotation.PriorityPrecedence;
 import org.apache.causeway.applib.annotation.PromptStyle;
@@ -24,58 +25,37 @@ import lombok.RequiredArgsConstructor;
 import domainapp.modules.simple.SimpleModule;
 import domainapp.modules.simple.types.Nombre;
 
-@Named(SimpleModule.NAMESPACE + ".Empresas")
+@Named(SimpleModule.NAMESPACE + ".EmpresaServices")
 @DomainService(nature = NatureOfService.VIEW)
+@DomainServiceLayout(named = "Empresa", menuBar = DomainServiceLayout.MenuBar.PRIMARY)
 @Priority(PriorityPrecedence.EARLY)
 @RequiredArgsConstructor(onConstructor_ = {@Inject} )
-public class Empresas {
+public class EmpresaServices {
 
     final RepositoryService repositoryService;
     final JdoSupportService jdoSupportService;
 
 
     @Action(semantics = SemanticsOf.NON_IDEMPOTENT)
-    @ActionLayout(promptStyle = PromptStyle.DIALOG_SIDEBAR)
-    public Empresa create(
-            @Nombre final String nombre, final TipoEmpresa tipoEmpresa, final String domicilio, final long telefono) {
+    @ActionLayout(promptStyle = PromptStyle.DIALOG_SIDEBAR, cssClassFa = "fa-plus")
+    public Empresa crearEmpresa(@Nombre final String nombre, final TipoEmpresa tipoEmpresa, final String domicilio, final long telefono) {
         return repositoryService.persist(Empresa.withName(nombre, tipoEmpresa, domicilio, telefono));
     }
 
 
     @Action(semantics = SemanticsOf.SAFE)
-    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT, promptStyle = PromptStyle.DIALOG_SIDEBAR)
-    public List<Empresa> findByName(
-            @Nombre final String name
-            ) {
+    @ActionLayout(promptStyle = PromptStyle.DIALOG_SIDEBAR, cssClassFa = "fa-search")
+    public List<Empresa> buscarEmpresa(@Nombre final String nombre) {
         return repositoryService.allMatches(
-                    Query.named(Empresa.class, Empresa.NAMED_QUERY__FIND_BY_NAME_LIKE)
-                        .withParameter("nombre", name));
+                    Query.named(Empresa.class, Empresa.NAMED_QUERY__FIND_BY_NOMBRE)
+                        .withParameter("nombre", nombre));
     }
-
-
-    public Empresa findByNameExact(final String name) {
-        return repositoryService.firstMatch(
-                    Query.named(Empresa.class, Empresa.NAMED_QUERY__FIND_BY_NAME_EXACT)
-                        .withParameter("nombre", name))
-                .orElse(null);
-    }
-
 
 
     @Action(semantics = SemanticsOf.SAFE)
-    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
-    public List<Empresa> listAll() {
+    @ActionLayout(promptStyle = PromptStyle.DIALOG_SIDEBAR,cssClassFa = "fa-list")
+    public List<Empresa> verEmpresas() {
         return repositoryService.allInstances(Empresa.class);
     }
-
-
-
-//    public void ping() {
-//        JDOQLTypedQuery<SimpleObject> q = jdoSupportService.newTypesafeQuery(SimpleObject.class);
-//        final QSimpleObject candidate = QSimpleObject.candidate();
-//        q.range(0,2);
-//        q.orderBy(candidate.name.asc());
-//        q.executeList();
-//    }
 
 }

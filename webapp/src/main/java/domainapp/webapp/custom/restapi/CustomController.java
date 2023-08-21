@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import domainapp.modules.simple.dom.so.vidrio.Vidrio;
-import domainapp.modules.simple.dom.so.vidrio.Vidrios;
+import domainapp.modules.simple.dom.so.vidrio.VidrioServices;
 
 import org.apache.causeway.applib.services.iactnlayer.InteractionContext;
 import org.apache.causeway.applib.services.iactnlayer.InteractionService;
@@ -26,11 +26,11 @@ class CustomController {
 
     private final InteractionService interactionService;
     private final TransactionalProcessor transactionalProcessor;
-    private final Vidrios simpleObjects;
+    private final VidrioServices simpleObjects;
 
     @GetMapping("/custom/simpleObjects")
     List<Vidrio> all() {
-        return call("sven", simpleObjects::listAll)
+        return call("sven", simpleObjects::verVidrios)
                 .orElse(Collections.<Vidrio>emptyList());
     }
 

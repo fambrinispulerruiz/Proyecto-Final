@@ -1,5 +1,0 @@
-nombre
-codigo
-precio
-tipoVidrio
-#version

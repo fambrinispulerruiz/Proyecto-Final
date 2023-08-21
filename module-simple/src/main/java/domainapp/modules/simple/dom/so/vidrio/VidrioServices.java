@@ -24,58 +24,44 @@ import lombok.RequiredArgsConstructor;
 import domainapp.modules.simple.SimpleModule;
 import domainapp.modules.simple.types.Nombre;
 
-@Named(SimpleModule.NAMESPACE + ".Vidrios")
+@Named(SimpleModule.NAMESPACE + ".VidrioServices")
 @DomainService(nature = NatureOfService.VIEW)
 @Priority(PriorityPrecedence.EARLY)
 @RequiredArgsConstructor(onConstructor_ = {@Inject} )
-public class Vidrios {
+public class VidrioServices {
 
     final RepositoryService repositoryService;
     final JdoSupportService jdoSupportService;
 
 
     @Action(semantics = SemanticsOf.NON_IDEMPOTENT)
-    @ActionLayout(promptStyle = PromptStyle.DIALOG_SIDEBAR)
-    public Vidrio create(
-            @Nombre final String nombre, final int codigo, final double precio, final TipoVidrio tipoVidrio) {
+    @ActionLayout(promptStyle = PromptStyle.DIALOG_SIDEBAR, cssClassFa = "fa-plus")
+    public Vidrio crearVidrio(@Nombre final String nombre, final int codigo, final double precio, final TipoVidrio tipoVidrio) {
         return repositoryService.persist(Vidrio.withName(nombre, codigo, precio, tipoVidrio));
     }
 
 
     @Action(semantics = SemanticsOf.SAFE)
-    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT, promptStyle = PromptStyle.DIALOG_SIDEBAR)
-    public List<Vidrio> findByName(
-            @Nombre final String name
-            ) {
+    @ActionLayout(promptStyle = PromptStyle.DIALOG_SIDEBAR, cssClassFa = "fa-search")
+    public List<Vidrio> buscarVidrio(@Nombre final String nombre) {
         return repositoryService.allMatches(
-                    Query.named(Vidrio.class, Vidrio.NAMED_QUERY__FIND_BY_NAME_LIKE)
-                        .withParameter("name", name));
+                    Query.named(Vidrio.class, Vidrio.NAMED_QUERY__FIND_BY_NAME_EXACT)
+                        .withParameter("nombre", nombre));
     }
 
 
-    public Vidrio findByNameExact(final String name) {
+    public Vidrio findByNameExact(final String nombre) {
         return repositoryService.firstMatch(
                     Query.named(Vidrio.class, Vidrio.NAMED_QUERY__FIND_BY_NAME_EXACT)
-                        .withParameter("name", name))
+                        .withParameter("nombre", nombre))
                 .orElse(null);
     }
 
 
-
     @Action(semantics = SemanticsOf.SAFE)
-    @ActionLayout(bookmarking = BookmarkPolicy.AS_ROOT)
-    public List<Vidrio> listAll() {
+    @ActionLayout(promptStyle = PromptStyle.DIALOG_SIDEBAR,cssClassFa = "fa-list")
+    public List<Vidrio> verVidrios() {
         return repositoryService.allInstances(Vidrio.class);
     }
-
-
-
-//    public void ping() {
-//        JDOQLTypedQuery<SimpleObject> q = jdoSupportService.newTypesafeQuery(SimpleObject.class);
-//        final QSimpleObject candidate = QSimpleObject.candidate();
-//        q.range(0,2);
-//        q.orderBy(candidate.name.asc());
-//        q.executeList();
-//    }
 
 }

@@ -1,5 +1,0 @@
-nombre
-precio
-factura
-fechaPedido
-detalle

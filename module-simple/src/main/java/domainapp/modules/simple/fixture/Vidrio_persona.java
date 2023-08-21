@@ -9,7 +9,7 @@ import org.springframework.core.io.ClassPathResource;
 
 import domainapp.modules.simple.dom.so.vidrio.TipoVidrio;
 import domainapp.modules.simple.dom.so.vidrio.Vidrio;
-import domainapp.modules.simple.dom.so.vidrio.Vidrios;
+import domainapp.modules.simple.dom.so.vidrio.VidrioServices;
 
 import org.apache.causeway.applib.services.clock.ClockService;
 import org.apache.causeway.applib.services.registry.ServiceRegistry;
@@ -54,7 +54,7 @@ implements Persona<Vidrio, Vidrio_persona.Builder> {
 
     @Override
     public Vidrio findUsing(final ServiceRegistry serviceRegistry) {
-        return serviceRegistry.lookupService(Vidrios.class).map(x -> x.findByNameExact(name)).orElseThrow();
+        return serviceRegistry.lookupService(VidrioServices.class).map(x -> x.findByNameExact(name)).orElseThrow();
     }
 
     @Accessors(chain = true)
@@ -65,7 +65,7 @@ implements Persona<Vidrio, Vidrio_persona.Builder> {
         @Override
         protected Vidrio buildResult(final ExecutionContext ec) {
 
-            val vidrio = wrap(vidrios).create(persona.name, persona.codigo, persona.precio, persona.tipoVidrio);
+            val vidrio = wrap(vidrios).crearVidrio(persona.name, persona.codigo, persona.precio, persona.tipoVidrio);
 
             if (persona.contentFileName != null) {
                 val bytes = toBytes(persona.contentFileName);
@@ -95,7 +95,7 @@ implements Persona<Vidrio, Vidrio_persona.Builder> {
 
         // -- DEPENDENCIES
 
-        @Inject Vidrios vidrios;
+        @Inject VidrioServices vidrios;
         @Inject ClockService clockService;
         @Inject FakeDataService fakeDataService;
     }

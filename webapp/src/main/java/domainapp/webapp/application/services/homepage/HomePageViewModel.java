@@ -16,7 +16,7 @@ import org.apache.causeway.applib.annotation.TableDecorator;
 
 import domainapp.modules.simple.SimpleModule;
 import domainapp.modules.simple.dom.so.vidrio.Vidrio;
-import domainapp.modules.simple.dom.so.vidrio.Vidrios;
+import domainapp.modules.simple.dom.so.vidrio.VidrioServices;
 
 @Named(SimpleModule.NAMESPACE + ".HomePageViewModel")
 @DomainObject(nature = Nature.VIEW_MODEL)
@@ -31,8 +31,8 @@ public class HomePageViewModel {
     @Collection
     @CollectionLayout(tableDecorator = TableDecorator.DatatablesNet.class)
     public List<Vidrio> getObjects() {
-        return simpleObjects.listAll();
+        return simpleObjects.verVidrios();
     }
 
-    @Inject Vidrios simpleObjects;
+    @Inject VidrioServices simpleObjects;
 }

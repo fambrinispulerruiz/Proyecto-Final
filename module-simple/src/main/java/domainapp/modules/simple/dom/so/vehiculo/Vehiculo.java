@@ -122,10 +122,8 @@ public class Vehiculo implements Comparable<Vehiculo> {
 //    @Property()
 //    @PropertyLayout(fieldSetId = "content", sequence = "1")
 //    private Blob attachment;
-//
-//
-//
-//
+
+    
 //    @Property(optionality = Optionality.OPTIONAL, editing = Editing.ENABLED)
 //    @PropertyLayout(fieldSetId = LayoutConstants.FieldSetId.DETAILS, sequence = "3")
 //    @Column(allowsNull = "true")

@@ -66,22 +66,17 @@ import domainapp.modules.simple.types.Precio;
     schema = SimpleModule.SCHEMA,
     identityType=IdentityType.DATASTORE)
 @Unique(
-        name = "Vidrio__name__UNQ", members = { "nombre" }
+        name = "Vidrio__nombre__UNQ", members = { "nombre" }
 )
 @Queries({
-        @Query(
-                name = Vidrio.NAMED_QUERY__FIND_BY_NAME_LIKE,
-                value = "SELECT " +
-                        "FROM domainapp.modules.simple.dom.so.Vidrio " +
-                        "WHERE name.indexOf(:name) >= 0"
-        ),
         @Query(
                 name = Vidrio.NAMED_QUERY__FIND_BY_NAME_EXACT,
                 value = "SELECT " +
                         "FROM domainapp.modules.simple.dom.so.Vidrio " +
-                        "WHERE name == :name"
+                        "WHERE nombre == :nombre"
         )
 })
+
 @DatastoreIdentity(strategy=IdGeneratorStrategy.IDENTITY, column="id")
 @Version(strategy= VersionStrategy.DATE_TIME, column="version")
 @Named(SimpleModule.NAMESPACE + ".Vidrio")
@@ -92,7 +87,6 @@ import domainapp.modules.simple.types.Precio;
 @ToString(onlyExplicitlyIncluded = true)
 public class Vidrio implements Comparable<Vidrio> {
 
-    static final String NAMED_QUERY__FIND_BY_NAME_LIKE = "Vidrio.findByNameLike";
     static final String NAMED_QUERY__FIND_BY_NAME_EXACT = "Vidrio.findByNameExact";
 
     public static Vidrio withName(final String nombre, final int codigo, final double precio, final TipoVidrio tipoVidrio) {

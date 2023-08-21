@@ -66,22 +66,17 @@ import domainapp.modules.simple.types.Nombre;
     schema = SimpleModule.SCHEMA,
     identityType=IdentityType.DATASTORE)
 @Unique(
-        name = "Empresa__name__UNQ", members = { "nombre" }
+        name = "Empresa__nombre__UNQ", members = { "nombre" }
 )
 @Queries({
         @Query(
-                name = Empresa.NAMED_QUERY__FIND_BY_NAME_LIKE,
+                name = Empresa.NAMED_QUERY__FIND_BY_NOMBRE,
                 value = "SELECT " +
                         "FROM domainapp.modules.simple.dom.so.Empresa " +
-                        "WHERE name.indexOf(:name) >= 0"
-        ),
-        @Query(
-                name = Empresa.NAMED_QUERY__FIND_BY_NAME_EXACT,
-                value = "SELECT " +
-                        "FROM domainapp.modules.simple.dom.so.Empresa " +
-                        "WHERE name == :name"
+                        "WHERE nombre == :nombre"
         )
 })
+
 @DatastoreIdentity(strategy=IdGeneratorStrategy.IDENTITY, column="id")
 @Version(strategy= VersionStrategy.DATE_TIME, column="version")
 @Named(SimpleModule.NAMESPACE + ".Empresa")
@@ -92,8 +87,7 @@ import domainapp.modules.simple.types.Nombre;
 @ToString(onlyExplicitlyIncluded = true)
 public class Empresa implements Comparable<Empresa> {
 
-    static final String NAMED_QUERY__FIND_BY_NAME_LIKE = "Empresa.findByNameLike";
-    static final String NAMED_QUERY__FIND_BY_NAME_EXACT = "Empresa.findByNameExact";
+    static final String NAMED_QUERY__FIND_BY_NOMBRE = "Empresa.findByNombre";
 
     public static Empresa withName(final String nombre, final TipoEmpresa tipoEmpresa, final String domicilio, final long telefono) {
         val empresa = new Empresa();

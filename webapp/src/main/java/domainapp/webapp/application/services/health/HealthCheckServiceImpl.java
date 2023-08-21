@@ -5,7 +5,7 @@ import javax.inject.Named;
 
 import org.springframework.stereotype.Service;
 
-import domainapp.modules.simple.dom.so.vidrio.Vidrios;
+import domainapp.modules.simple.dom.so.vidrio.VidrioServices;
 
 import org.apache.causeway.applib.services.health.Health;
 import org.apache.causeway.applib.services.health.HealthCheckService;
@@ -14,10 +14,10 @@ import org.apache.causeway.applib.services.health.HealthCheckService;
 @Named("domainapp.HealthCheckServiceImpl")
 public class HealthCheckServiceImpl implements HealthCheckService {
 
-    private final Vidrios vidrios;
+    private final VidrioServices vidrios;
 
     @Inject
-    public HealthCheckServiceImpl(Vidrios vidrios) {
+    public HealthCheckServiceImpl(VidrioServices vidrios) {
         this.vidrios = vidrios;
     }
 
