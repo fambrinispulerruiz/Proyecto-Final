@@ -7,10 +7,6 @@ import javax.inject.Inject;
 
 import org.springframework.core.io.ClassPathResource;
 
-import domainapp.modules.simple.dom.so.vidrio.TipoVidrio;
-import domainapp.modules.simple.dom.so.vidrio.Vidrio;
-import domainapp.modules.simple.dom.so.vidrio.VidrioServices;
-
 import org.apache.causeway.applib.services.clock.ClockService;
 import org.apache.causeway.applib.services.registry.ServiceRegistry;
 import org.apache.causeway.applib.value.Blob;
@@ -26,25 +22,25 @@ import lombok.SneakyThrows;
 import lombok.val;
 import lombok.experimental.Accessors;
 
-@RequiredArgsConstructor
-public enum Vidrio_persona
-implements Persona<Vidrio, Vidrio_persona.Builder> {
+import domainapp.modules.simple.dom.so.so.SimpleObject;
+import domainapp.modules.simple.dom.so.so.SimpleObjects;
 
-    FOO("Foo", 1, 200, TipoVidrio.Parabrisa, "Foo.pdf"),
-    BAR("Bar", 1, 200, TipoVidrio.Parabrisa, "Bar.pdf"),
-    BAZ("Baz", 1, 200, TipoVidrio.Parabrisa, "Baz.pdf"),
-    FRODO("Frodo", 1, 200, TipoVidrio.Parabrisa, "Frodo.pdf"),
-    FROYO("Froyo", 1, 200, TipoVidrio.Parabrisa, "Froyo.pdf"),
-    FIZZ("Fizz", 1, 200, TipoVidrio.Parabrisa, "Fizz.pdf"),
-    BIP("Bip", 1, 200, TipoVidrio.Parabrisa, "Bip.pdf"),
-    BOP("Bop", 1, 200, TipoVidrio.Parabrisa, "Bop.pdf"),
-    BANG("Bang", 1, 200, TipoVidrio.Parabrisa, "Bang.pdf"),
-    BOO("Boo", 1, 200, TipoVidrio.Parabrisa, "Boo.pdf");
+@RequiredArgsConstructor
+public enum SimpleObject_persona
+implements Persona<SimpleObject, SimpleObject_persona.Builder> {
+
+    FOO("Foo", "Foo.pdf"),
+    BAR("Bar", "Bar.pdf"),
+    BAZ("Baz", null),
+    FRODO("Frodo", "Frodo.pdf"),
+    FROYO("Froyo", null),
+    FIZZ("Fizz", "Fizz.pdf"),
+    BIP("Bip", null),
+    BOP("Bop", null),
+    BANG("Bang", "Bang.pdf"),
+    BOO("Boo", null);
 
     private final String name;
-    private final int codigo;
-    private final double precio;
-    private final TipoVidrio tipoVidrio;
     private final String contentFileName;
 
     @Override
@@ -53,29 +49,29 @@ implements Persona<Vidrio, Vidrio_persona.Builder> {
     }
 
     @Override
-    public Vidrio findUsing(final ServiceRegistry serviceRegistry) {
-        return serviceRegistry.lookupService(VidrioServices.class).map(x -> x.findByNameExact(name)).orElseThrow();
+    public SimpleObject findUsing(final ServiceRegistry serviceRegistry) {
+        return serviceRegistry.lookupService(SimpleObjects.class).map(x -> x.findByNameExact(name)).orElseThrow();
     }
 
     @Accessors(chain = true)
-    public static class Builder extends BuilderScriptWithResult<Vidrio> {
+    public static class Builder extends BuilderScriptWithResult<SimpleObject> {
 
-        @Getter @Setter private Vidrio_persona persona;
+        @Getter @Setter private SimpleObject_persona persona;
 
         @Override
-        protected Vidrio buildResult(final ExecutionContext ec) {
+        protected SimpleObject buildResult(final ExecutionContext ec) {
 
-            val vidrio = wrap(vidrios).crearVidrio(persona.name, persona.codigo, persona.precio, persona.tipoVidrio);
+            val simpleObject = wrap(simpleObjects).create(persona.name);
 
             if (persona.contentFileName != null) {
                 val bytes = toBytes(persona.contentFileName);
-//                val attachment = new Blob(persona.contentFileName, "application/pdf", bytes);
-//                vidrio.updateAttachment(attachment);
+                val attachment = new Blob(persona.contentFileName, "application/pdf", bytes);
+                simpleObject.updateAttachment(attachment);
             }
 
-//            vidrio.setLastCheckedIn(clockService.getClock().nowAsLocalDate().plusDays(fakeDataService.ints().between(-10, +10)));
+            simpleObject.setLastCheckedIn(clockService.getClock().nowAsLocalDate().plusDays(fakeDataService.ints().between(-10, +10)));
 
-            return vidrio;
+            return simpleObject;
         }
 
         @SneakyThrows
@@ -95,15 +91,15 @@ implements Persona<Vidrio, Vidrio_persona.Builder> {
 
         // -- DEPENDENCIES
 
-        @Inject VidrioServices vidrios;
+        @Inject SimpleObjects simpleObjects;
         @Inject ClockService clockService;
         @Inject FakeDataService fakeDataService;
     }
 
     public static class PersistAll
-            extends PersonaEnumPersistAll<Vidrio, Vidrio_persona, Builder> {
+            extends PersonaEnumPersistAll<SimpleObject, SimpleObject_persona, Builder> {
         public PersistAll() {
-            super(Vidrio_persona.class);
+            super(SimpleObject_persona.class);
         }
     }
 

@@ -3,6 +3,7 @@ package domainapp.modules.simple.dom.so.vidrio;
 //import java.time.LocalTime;
 //import java.time.ZoneOffset;
 import java.util.Comparator;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -18,25 +19,31 @@ import javax.jdo.annotations.Query;
 import javax.jdo.annotations.Unique;
 import javax.jdo.annotations.Version;
 import javax.jdo.annotations.VersionStrategy;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 //import org.springframework.lang.Nullable;
 
 import org.apache.causeway.applib.annotation.Action;
 import org.apache.causeway.applib.annotation.ActionLayout;
+import org.apache.causeway.applib.annotation.CollectionLayout;
 import org.apache.causeway.applib.annotation.DomainObject;
 import org.apache.causeway.applib.annotation.DomainObjectLayout;
 //import org.apache.causeway.applib.annotation.Editing;
 import org.apache.causeway.applib.annotation.MemberSupport;
+import org.apache.causeway.applib.annotation.Programmatic;
 //import org.apache.causeway.applib.annotation.Optionality;
 import org.apache.causeway.applib.annotation.PromptStyle;
 import org.apache.causeway.applib.annotation.Property;
 import org.apache.causeway.applib.annotation.PropertyLayout;
 import org.apache.causeway.applib.annotation.Publishing;
+import org.apache.causeway.applib.annotation.SemanticsOf;
 import org.apache.causeway.applib.annotation.TableDecorator;
 import org.apache.causeway.applib.annotation.Title;
 import org.apache.causeway.applib.jaxb.PersistentEntityAdapter;
 import org.apache.causeway.applib.layout.LayoutConstants;
+import org.apache.causeway.applib.services.appfeatui.ApplicationType.Actions;
 import org.apache.causeway.applib.services.message.MessageService;
 import org.apache.causeway.applib.services.repository.RepositoryService;
 import org.apache.causeway.applib.services.title.TitleService;
@@ -56,6 +63,8 @@ import lombok.ToString;
 import lombok.val;
 
 import domainapp.modules.simple.SimpleModule;
+import domainapp.modules.simple.dom.so.empresa.Empresa;
+import domainapp.modules.simple.dom.so.empresa.EmpresaServices;
 import domainapp.modules.simple.types.Codigo;
 import domainapp.modules.simple.types.Nombre;
 import domainapp.modules.simple.types.Notes;
@@ -89,12 +98,13 @@ public class Vidrio implements Comparable<Vidrio> {
 
     static final String NAMED_QUERY__FIND_BY_NAME_EXACT = "Vidrio.findByNameExact";
 
-    public static Vidrio withName(final String nombre, final int codigo, final double precio, final TipoVidrio tipoVidrio) {
+    public static Vidrio withName(final String nombre, final int codigo, final double precio, final TipoVidrio tipoVidrio, final Empresa empresa) {
         val vidrio = new Vidrio();
         vidrio.setNombre(nombre);
         vidrio.setCodigo(codigo);
         vidrio.setPrecio(precio);
         vidrio.setTipoVidrio(tipoVidrio);
+        vidrio.setEmpresa(empresa);
         return vidrio;
     }
 
@@ -125,10 +135,24 @@ public class Vidrio implements Comparable<Vidrio> {
     private TipoVidrio tipoVidrio;
     
     
+    @Getter @Setter
+    @PropertyLayout( fieldSetId = LayoutConstants.FieldSetId.DETAILS, sequence = "5")
+    @ManyToOne
+    @javax.jdo.annotations.Column(name = "empresa_id")
+    @CollectionLayout(named = "Empresas disponibles")
+    private Empresa empresa;
+    
+    public List<Empresa> choicesEmpresa(@Nombre String nombre) {
+        return empresaServices.buscarEmpresa(nombre);
+    }
+    
+    @Inject
+    EmpresaServices empresaServices;
+    
     @Notes
     @Getter @Setter
     @Property(commandPublishing = Publishing.ENABLED, executionPublishing = Publishing.ENABLED)
-    @PropertyLayout(fieldSetId = LayoutConstants.FieldSetId.DETAILS, sequence = "2")
+    @PropertyLayout(fieldSetId = LayoutConstants.FieldSetId.DETAILS, sequence = "6")
     private String notes;
 
 
@@ -167,7 +191,6 @@ public class Vidrio implements Comparable<Vidrio> {
 //            return null;
 //        }
 //    }
-
 
     @Action(semantics = IDEMPOTENT, commandPublishing = Publishing.ENABLED, executionPublishing = Publishing.ENABLED)
     @ActionLayout(

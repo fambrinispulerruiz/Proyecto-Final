@@ -3,6 +3,7 @@ package domainapp.modules.simple.dom.so.empresa;
 //import java.time.LocalTime;
 //import java.time.ZoneOffset;
 import java.util.Comparator;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -18,6 +19,8 @@ import javax.jdo.annotations.Query;
 import javax.jdo.annotations.Unique;
 import javax.jdo.annotations.Version;
 import javax.jdo.annotations.VersionStrategy;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 //import org.springframework.lang.Nullable;
@@ -56,6 +59,7 @@ import lombok.ToString;
 import lombok.val;
 
 import domainapp.modules.simple.SimpleModule;
+import domainapp.modules.simple.dom.so.vidrio.Vidrio;
 //import domainapp.modules.simple.types.Codigo;
 import domainapp.modules.simple.types.Nombre;
 //import domainapp.modules.simple.types.Notes;
@@ -121,6 +125,11 @@ public class Empresa implements Comparable<Empresa> {
     @Getter @Setter
     @PropertyLayout(fieldSetId = LayoutConstants.FieldSetId.DETAILS, sequence = "4")
     private long telefono;
+    
+    @Getter @Setter
+    @PropertyLayout(fieldSetId = LayoutConstants.FieldSetId.DETAILS, sequence = "5")
+    @OneToMany(mappedBy = "empresa")
+    private List<Vidrio> vidrios;
 
 
 //    @PdfJsViewer
